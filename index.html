@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#171917">
+  <title>MyTube — Seu tempo, suas escolhas</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#feed"><span class="logo">▶</span> MyTube<span class="dot">.</span></a>
+    <p class="eyebrow">SEU ESPAÇO NO YOUTUBE</p>
+    <nav aria-label="Navegação principal">
+      <a href="#feed" data-page="feed">▤ <span>Meu feed</span></a>
+      <a href="#channels" data-page="channels">◎ <span>Meus canais</span></a>
+      <a href="#settings" data-page="settings">⚙ <span>Conexão e ajustes</span></a>
+    </nav>
+    <div class="sidebar-bottom"><span class="tiny-dot"></span> Curadoria pessoal<p>Mais intenção.<br>Menos ruído.</p><small>Um projeto independente.<br>Vídeos fornecidos pelo YouTube.</small></div>
+  </aside>
+  <main>
+    <header class="topbar"><span>Sua biblioteca, no seu ritmo</span><button id="connect" class="primary">Conectar YouTube ↗</button><button id="disconnect" hidden>Desconectar</button></header>
+    <p id="status" role="status" aria-live="polite" hidden></p>
+    <section id="feed" class="page">
+      <div class="heading"><div><p class="eyebrow">ESCOLHIDO POR VOCÊ</p><h1>Vale o seu tempo.</h1><p>Seus canais e sua curadoria. Um feed com propósito.</p></div><button id="refresh">↻ Atualizar feed</button></div>
+      <div class="manifesto"><span class="manifesto-icon">✳</span><div><strong>Você decide o que entra aqui.</strong><p>Apenas suas inscrições e canais que você aprovar. Os vídeos mais recentes vêm primeiro.</p></div><span class="pill">Sem feed infinito</span></div>
+      <div class="filters"><div class="segments" aria-label="Origem dos vídeos"><button data-filter="all" aria-pressed="true">Todos</button><button data-filter="subscribed" aria-pressed="false">Inscrições</button><button data-filter="curated" aria-pressed="false">Curadoria</button></div><label class="search">⌕ <input id="search" type="search" placeholder="Buscar neste feed" aria-label="Buscar neste feed"></label></div>
+      <div class="section-label"><h2>Seu próximo play</h2><span id="feed-count">0 vídeos</span></div>
+      <div id="videos" class="video-grid"></div>
+      <div id="empty" class="empty"><div class="empty-icon">▷</div><h2>Um novo começo para o seu feed.</h2><p>Conecte sua conta para carregar suas inscrições.<br>Nenhum canal será escolhido por você automaticamente.</p><a class="button primary" href="#settings">Configurar minha conexão ↗</a></div>
+      <p class="footnote">Até 5 vídeos recentes por canal. Assista aqui com o player oficial ou abra no YouTube para usar os benefícios disponíveis da sua assinatura.</p>
+    </section>
+    <section id="channels" class="page" hidden>
+      <div class="heading"><div><p class="eyebrow">SUA SELEÇÃO</p><h1>Gente que vale ouvir.</h1><p>Inscrição é uma escolha sua. Curadoria exige uma avaliação sua.</p></div></div>
+      <form id="discover-form" class="panel discovery"><h2>Defina seus critérios. Descubra outros canais.</h2><p>O app busca no YouTube e filtra os perfis conforme suas regras. Os resultados são candidatos para avaliação, não certificados de credibilidade.</p><div class="criteria-grid"><label>Tema ou expressão de busca<input name="topic" required maxlength="150" placeholder="Ex.: astronomia, história do Brasil"></label><label>Idioma preferido<select name="language"><option value="pt">Português</option><option value="en">Inglês</option><option value="es">Espanhol</option><option value="">Qualquer idioma</option></select></label><label>Exigir ao menos um termo no perfil<input name="required" placeholder="Ex.: universidade, pesquisador, documentário"></label><label>Excluir termos do perfil<input name="excluded" placeholder="Ex.: repost, cortes, compilação"></label><label>Idade mínima do canal (anos)<input name="minYears" type="number" min="0" max="30" value="0"></label><label>Seus critérios para a avaliação final<textarea name="review" rows="2" placeholder="Ex.: citar fontes primárias; apresentar autoria; evitar títulos enganosos."></textarea></label></div><p class="footnote">Separe termos por vírgulas. Os filtros usam o nome e a descrição declarados pelo canal; não analisam os vídeos. Idioma é uma preferência da busca, não uma garantia.</p><button class="primary" type="submit">Salvar critérios e buscar canais</button><p id="discovery-summary" role="status"></p><div id="candidates" class="candidate-grid"></div><button id="more-candidates" type="button" hidden>Buscar mais candidatos</button></form>
+      <div class="two-columns"><form id="curate-form" class="panel"><h2>Aprovar um canal adicional</h2><p>Registre sua avaliação antes de incluir um canal no feed. Isso não altera suas inscrições no YouTube.</p><label>Canal<input name="channel" placeholder="@canal ou ID UC…" required></label><fieldset><legend>Critérios mínimos de curadoria</legend><label class="check"><input type="checkbox" name="original" required> Produz conteúdo original ou acrescenta análise substancial.</label><label class="check"><input type="checkbox" name="identity" required> Identifica autores e sua experiência no assunto.</label><label class="check"><input type="checkbox" name="sources" required> Apresenta fontes verificáveis quando faz afirmações factuais.</label></fieldset><label>Evidências e motivo da aprovação<textarea name="reason" rows="4" minlength="20" required placeholder="Registre exemplos, links, limitações e por que este canal merece entrar."></textarea></label><button class="primary" type="submit">Aprovar e adicionar canal</button><small>Avaliação manual; não é uma certificação de veracidade nem uma detecção automática de repostagens.</small></form><div class="panel"><h2>Canais no MyTube</h2><p id="channel-summary">Conecte sua conta para carregar suas inscrições.</p><div id="channel-list"></div></div></div>
+    </section>
+    <section id="settings" class="page" hidden>
+      <div class="heading"><div><p class="eyebrow">DO SEU JEITO</p><h1>Sua conta. Seu controle.</h1><p>A conexão permite consultar inscrições e vídeos.</p></div></div>
+      <div class="two-columns"><form id="settings-form" class="panel"><h2>Conectar com o Google</h2><p>Use um Client ID OAuth do tipo aplicativo Web com a YouTube Data API v3 ativada. O passo a passo está no README do projeto.</p><label>Google OAuth Client ID<input id="client-id" required placeholder="…apps.googleusercontent.com" autocomplete="off"></label><p class="footnote">O Client ID é um identificador público. Não cole uma chave secreta ou um token aqui.</p><button class="primary">Salvar configuração</button><p>Origem a autorizar no Google:</p><code id="origin"></code></form><div class="panel"><h2>E o YouTube Premium?</h2><p>O MyTube organiza suas escolhas. Ao abrir um vídeo no YouTube, entre com a conta da sua assinatura para aproveitar os benefícios disponíveis nesse dispositivo.</p><p>Autorizar a API não conecta automaticamente a sessão de um player incorporado. Não prometemos downloads, reprodução em segundo plano ou todos os recursos Premium dentro deste app.</p><h2>Seus dados</h2><p>O token de acesso e suas inscrições ficam apenas na memória desta aba. Suas avaliações de canais ficam neste navegador. Não há sincronização entre dispositivos.</p><button id="clear-data" type="button">Apagar dados locais e desconectar</button><p class="footnote">A página pode ser pública no GitHub Pages. Isso não publica suas inscrições ou avaliações.</p></div></div>
+    </section>
+  </main>
+  <dialog id="watch-dialog" aria-labelledby="watch-title"><div class="watch-heading"><h2 id="watch-title">Assistir</h2><button id="close-player" aria-label="Fechar player">✕</button></div><div id="player"></div><p>Os recursos Premium dependem da sessão reconhecida pelo YouTube neste player. Se o vídeo não carregar ou o benefício não estiver disponível, abra no YouTube.</p><a id="watch-external" class="button" target="_blank" rel="noopener noreferrer">Abrir no YouTube ↗</a></dialog>
+</body>
+</html>
